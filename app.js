@@ -1,9 +1,10 @@
-import authRoutes from './routes/authRoutes';
-import userRoutes from './routes/userRoutes';
-import chatRoutes from './routes/chatRoutes';
-import animalRoutes from './routes/animalRoutes';
-const express = require('express')
-import { connectToDB } from './configs/db';
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+import animalRoutes from './routes/animalRoutes.js';
+import cors from 'cors';
+import express from 'express';
+import { connectToDB } from './configs/db.js';
 
 // init app & middleware
 const app = express()
@@ -12,7 +13,7 @@ const app = express()
 app.use(express.json());
 
 // conexão com o banco de dados mongodb
-connectToDB(() => {
+connectToDB((err) => {
   if (!err) {
     // Inicialização do servidor quando a conexão com o db é bem-sucedida
     app.listen(3000, () => { console.log("Servidor ouvindo na porta 3000.") })

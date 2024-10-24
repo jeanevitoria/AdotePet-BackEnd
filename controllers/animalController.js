@@ -1,4 +1,4 @@
-import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService } from '../services/animalService';
+import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService } from '../services/animalService.js';
 
 export const getAnimaisDisponiveis = async (req, res) => {
     try {

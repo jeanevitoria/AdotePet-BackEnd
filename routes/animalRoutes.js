@@ -1,6 +1,6 @@
-const express = require('express');
-import { getAnimaisDisponiveis, getAnimal, cadastrarAnimal} from '../controllers/animalController';
-import { authenticateToken, authorizeRoles } from '../middlewares/authMiddleware.js';
+import express from 'express';
+import { getAnimaisDisponiveis, getAnimal, cadastrarAnimal} from '../controllers/animalController.js';
+import { authenticateToken } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
