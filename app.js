@@ -26,6 +26,11 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
 }));
 
+app.get('/', (req, res) => {
+  res.send('API funcionando corretamente');
+});
+
+
 // routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
