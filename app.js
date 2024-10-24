@@ -8,6 +8,9 @@ import { connectToDB } from './configs/db';
 // init app & middleware
 const app = express()
 
+// Middleware
+app.use(express.json());
+
 // conexão com o banco de dados mongodb
 connectToDB(() => {
   if (!err) {
@@ -15,8 +18,6 @@ connectToDB(() => {
     app.listen(3000, () => { console.log("Servidor ouvindo na porta 3000.") })
   }
 })
-
-
 
 // CORS para o frontend
 app.use(cors({
