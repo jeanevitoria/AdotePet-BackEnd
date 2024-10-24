@@ -14,9 +14,9 @@ app.use(express.json());
 
 // conexão com o banco de dados mongodb
 connectToDB((err) => {
-  if (!err) {
-    // Inicialização do servidor quando a conexão com o db é bem-sucedida
-    app.listen(3000, () => { console.log("Servidor ouvindo na porta 3000.") })
+  if (err) {
+    console.error("Erro ao conectar ao banco de dados:", err);
+    return; // Não inicializa o servidor se houver um erro
   }
 })
 
