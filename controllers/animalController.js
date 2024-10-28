@@ -1,9 +1,10 @@
 import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService } from '../services/animalService.js';
 
 export const cadastrarAnimal = async (req, res) => {
-    const data = req.body;
+    const { data, foto} = req.body;
+    const user_id = req.user.id;
 
-    cadastrarAnimalService(data)
+    cadastrarAnimalService(data, foto, user_id)
         .then((result) => {
             return res.status(200).json(result);
         })
@@ -13,9 +14,7 @@ export const cadastrarAnimal = async (req, res) => {
 }
 
 export const getAnimaisDisponiveis = async (req, res) => {
-    const data = req.body;
-
-    getAnimaisDisponiveisService(data)
+    getAnimaisDisponiveisService()
         .then((result) => {
             return res.status(200).json(result);
         })
@@ -25,9 +24,9 @@ export const getAnimaisDisponiveis = async (req, res) => {
 }
 
 export const getAnimal = async (req, res) => {
-const data = req.body;
+const { id } = req.body;
 
-    getAnimalService(data)
+    getAnimalService(id)
         .then((result) => {
             return res.status(200).json(result);
         })

@@ -2,8 +2,8 @@ import { getDb } from '../configs/db.js';
 import express from 'express';
 const db = getDb();
 
-export const atualizarPerfilService = (data, user) => {
-    return db.collection('user').updateOne({ _id: user.id }, { $set: data })
+export const atualizarPerfilService = (data, user_id) => {
+    return db.collection('user').updateOne({ _id: user_id }, { $set: data })
         .then((result) => {
             if (result.modifiedCount > 0) {
                 return { success: true, result };
@@ -16,8 +16,8 @@ export const atualizarPerfilService = (data, user) => {
         });
 };
 
-export const getAnimaisPublicadosService = (user) => {
-    return db.collection('animal').find({ user_id: user.id }).toArray()
+export const getAnimaisPublicadosService = (user_id) => {
+    return db.collection('animal').find({ user_id: user_id }).toArray()
         .then((result) => {
             return result;
         })
@@ -27,7 +27,7 @@ export const getAnimaisPublicadosService = (user) => {
 };
 
 export const deletarPublicacaoService = (idPublicacao) => {
-    return db.collection('animal').deleteOne({ _id: idPublicacao })
+    return db.collection('animal').deleteOne({ _id: new ObjectId(idPublicacao) })
         .then((result) => {
             if (result.deletedCount > 0) {
                 return { success: true, result }
