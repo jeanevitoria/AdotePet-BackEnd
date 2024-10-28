@@ -5,7 +5,7 @@ export const login = async (req, res) => {
 
     loginService(data)
         .then((result) => {
-            return res.status(200).json(result)
+            return res.status(result.success ? 200 : 400).json(result)
         })
         .catch((error) => {
             return res.status(500).json(error.message)
@@ -17,7 +17,7 @@ export const cadastro = async (req, res) => {
 
     cadastroService(data)
         .then((result) => {
-            return res.status(200).json(result)
+            return res.status(result.success ? 200 : 400).json(result)
         })
         .catch((error) => {
             return res.status(500).json(error.message)
