@@ -1,28 +1,38 @@
 import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService } from '../services/animalService.js';
 
-export const getAnimaisDisponiveis = async (req, res) => {
-    try {
+export const cadastrarAnimal = async (req, res) => {
+    const data = req.body;
 
-        return res.status(200).json(data)
-    } catch (error){
-        return res.status(500).json(error.message)
-    }
+    cadastrarAnimalService(data)
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message);
+        });
+}
+
+export const getAnimaisDisponiveis = async (req, res) => {
+    const data = req.body;
+
+    getAnimaisDisponiveisService(data)
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
 }
 
 export const getAnimal = async (req, res) => {
-    try {
+const data = req.body;
 
-        return res.status(200).json(data)
-    } catch (error){
-        return res.status(500).json(error.message)
-    }
+    getAnimalService(data)
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
 }
 
-export const cadastrarAnimal = async (req, res) => {
-    try {
-
-        return res.status(200).json(data)
-    } catch (error){
-        return res.status(500).json(error.message)
-    }
-}
