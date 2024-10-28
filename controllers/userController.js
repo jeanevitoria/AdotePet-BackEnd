@@ -1,28 +1,37 @@
-import { atualizarPerfilService, getAnimaisPublicadosService } from '../services/userService.js'
+import { atualizarPerfilService, getAnimaisPublicadosService, deletarPublicacaoService} from '../services/userService.js'
 
 export const getAnimaisPublicados = async (req, res) => {
-    try {
+    const data = req.body;
 
-        return res.status(200).json(data)
-    } catch (error){
-        return res.status(500).json(error.message)
-    }
+    getAnimaisPublicadosService(data)
+        .then((result) => {
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
 }
 
 export const deletarPublicacao = async (req, res) => {
-    try {
+    const data = req.body;
 
-        return res.status(200).json(data)
-    } catch (error){
-        return res.status(500).json(error.message)
-    }
+    deletarPublicacaoService(data)
+        .then((result) => {
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
 }
 
 export const atualizarPerfil = async (req, res) => {
-    try {
+    const data = req.body;
 
-        return res.status(200).json(data)
-    } catch (error) {
-        return res.status(500).json(error.message)
-    }
+    atualizarPerfilService(data)
+        .then((result) => {
+            return res.status(200).json(result)
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
 }
