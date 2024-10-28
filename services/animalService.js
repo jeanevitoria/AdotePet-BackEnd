@@ -27,7 +27,19 @@ export const getAnimalService = (id) => {
 export const cadastrarAnimalService = (data, foto, user_id) => {
     const { nome, tipo, raca, genero, peso, localizacao, vacinado, idade, descricao } = data;
 
-    return db.collection.insertOne({ nome, tipo, raca, genero, peso, localizacao, vacinado, idade, descricao, foto, user_id: user_id })
+    return db.collection('animal').insertOne({
+        nome,
+        tipo,
+        raca,
+        genero,
+        peso,
+        localizacao,
+        vacinado,
+        idade,
+        descricao,
+        foto: foto ? foto.buffer : null,
+        user_id
+    })
         .then((result) => {
             if (result.acknowledged) {
                 return { success: true, result };
@@ -35,4 +47,7 @@ export const cadastrarAnimalService = (data, foto, user_id) => {
                 return { success: false, message: "Cadastro não realizado." };
             }
         })
-}
+        .catch((error) => {
+            throw new Error(error.message);
+        });
+};
