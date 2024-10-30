@@ -10,7 +10,7 @@ const upload = multer({ storage: storage });
 const router = express.Router();
 
 router.get('/lista', authenticateToken, getAnimaisDisponiveis);
-router.post('/cadastrar-animal', authenticateToken, upload.single('foto'), cadastrarAnimal);
+router.post('/cadastrar', authenticateToken, upload.single('foto'), cadastrarAnimal);
 router.get('/:id', authenticateToken, getAnimal);
 
 export default router;
