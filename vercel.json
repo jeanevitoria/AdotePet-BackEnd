@@ -1,25 +1,26 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "app.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "app.js",
+        "use": "@vercel/node"
+      }
     ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/app.js"
-        }
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/app.js"
+      }
     ],
     "headers": [
-        {
-            "source": "/api/(.*)",
-            "headers": [
-                { "key": "Access-Control-Allow-Origin", "value": "https://adotepet-six.vercel.app" },
-                { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE" },
-                { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
-            ]
-        }
+      {
+        "source": "/(.*)",
+        "headers": [
+          { "key": "Access-Control-Allow-Origin", "value": "https://adotepet-six.vercel.app" },
+          { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE" },
+          { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+        ]
+      }
     ]
-}
+  }
+  
