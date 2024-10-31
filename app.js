@@ -22,7 +22,7 @@ connectToDB((err) => {
 
 // CORS para o frontend
 app.use(cors({
-  origin: 'https://adotepet-six.vercel.app',
+  origin: ['https://adotepet-six.vercel.app', 'http://localhost:5174'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
 }));
