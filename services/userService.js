@@ -1,6 +1,7 @@
 import { getDb } from '../configs/db.js';
 import express from 'express';
-const db = getDb();
+
+const db = await getDb();
 
 export const atualizarPerfilService = (data, user_id) => {
     return db.collection('user').updateOne({ _id: user_id }, { $set: data })
