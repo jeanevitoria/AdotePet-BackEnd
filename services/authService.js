@@ -40,7 +40,7 @@ export const loginService = (data) => {
 
 export const cadastroService = (data) => {
     const { email, senha, nome, celular } = data;
-
+    console.log(email, senha, nome, celular)
     // Procura no banco de dados algum usuário com o email ou celular já registrado
     return db.collection('user').findOne({ $or: [{ email }, { celular }] })
         .then((user) => {
@@ -62,6 +62,7 @@ export const cadastroService = (data) => {
             }
         })
         .catch((error) => {
+            console.error("Erro no cadastro:", error.message);
             throw new Error(error.message);
         });
 };
