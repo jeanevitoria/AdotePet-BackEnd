@@ -22,10 +22,15 @@ connectToDB((err) => {
 
 // CORS para o frontend
 app.use(cors({
-  origin: ['https://adotepet-six.vercel.app', 'http://localhost:5174'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
-}));
+  origin: function (origin, callback) {
+    if (['https://adotepet-six.vercel.app', 'http://localhost:5174'].indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],}));
 
 app.get('/', (req, res) => {
   res.send('API funcionando corretamente');
