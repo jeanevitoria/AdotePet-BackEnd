@@ -1,9 +1,11 @@
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
 let dbConnection;
+dotenv.config();
 
 export const connectToDB = (cb) => {
-    MongoClient.connect('mongodb+srv://adotepetDB:oVj9vFCFHfzZ415m@cluster0.nzvrv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    MongoClient.connect('process.env.MONGODB_URI')
     .then((client) => {
         dbConnection = client.db();
         return cb();
