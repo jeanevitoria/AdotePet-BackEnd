@@ -6,10 +6,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const db = getDb();
 const SALT_ROUNDS = 10;
 
 export const loginService = (data) => {
+    const db = getDb();
     const { email, senha } = data;
 
     // Procura no banco de dados um usuário com o email fornecido
@@ -40,7 +40,8 @@ export const loginService = (data) => {
 
 export const cadastroService = (data) => {
     const { email, senha, nome, celular } = data;
-    console.log(email, senha, nome, celular)
+    const db = getDb();
+
     // Procura no banco de dados algum usuário com o email ou celular já registrado
     return db.collection('user').findOne({ $or: [{ email }, { celular }] })
         .then((user) => {
