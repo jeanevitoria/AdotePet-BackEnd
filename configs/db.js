@@ -14,7 +14,7 @@ export const connectToDB = (cb) => {
         socketTimeoutMS: 45000
       })
     .then((client) => {
-        dbConnection = client.db();
+        dbConnection = client.db('adotepetDB');
         return cb();
     })
     .catch(err => {
