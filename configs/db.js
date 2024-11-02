@@ -9,7 +9,7 @@ export const connectToDB = (cb) => {
 
     MongoClient.connect(process.env.MONGODB_URI)
         .then((client) => {
-            dbConnection = client.db('adotepetDB');
+            dbConnection = client.db();
             console.log('Conexão com o banco de dados MongoDB estabelecida com sucesso.');
             return cb();
         })
