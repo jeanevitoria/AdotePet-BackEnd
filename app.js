@@ -12,6 +12,16 @@ const app = express()
 // Middleware
 app.use(express.json());
 
+// conexão com o banco de dados mongodb
+await connectToDB((err) => {
+  if (err) {
+    console.error("Erro ao conectar ao banco de dados:", err);
+    return; // Não inicializa o servidor se houver um erro
+  } else {
+    console.log("Conexão bem-sucedida")
+  }
+})
+
 // CORS para o frontend
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://adotepet-six.vercel.app');
@@ -33,15 +43,5 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/animal', animalRoutes);
-
-// conexão com o banco de dados mongodb
-connectToDB((err) => {
-  if (err) {
-    console.error("Erro ao conectar ao banco de dados:", err);
-    return; // Não inicializa o servidor se houver um erro
-  } else {
-    console.log("Conexão bem-sucedida")
-  }
-})
 
 export default app;
