@@ -21,21 +21,16 @@ connectToDB((err) => {
   console.log("Conexão com o banco de dados MongoDB estabelecida com sucesso."); // Log de sucesso
 });
 
-// CORS para o frontend
-
-app.use(
-  cors({
-    origin: 'https://adotepet-six.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200 
-  })
-);
-
-app.options('/*', (req, res) => {
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://adotepet-six.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Methods', 'DELETE, POST, GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.header('Access-Control-Max-Age', '86400');
+  next();
+});
+
+// OPTIONS request
+app.options('/*', (req, res) => {
   res.sendStatus(200);
 });
 
