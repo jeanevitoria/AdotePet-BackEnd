@@ -5,8 +5,6 @@ let dbConnection;
 dotenv.config();
 
 const connectToDB = async (cb) => {
-    console.log(process.env.MONGODB_URI);
-
     const client = await MongoClient.connect(process.env.MONGODB_URI)
     dbConnection = client.db();
     console.log('Conexão com o banco de dados MongoDB estabelecida com sucesso.');

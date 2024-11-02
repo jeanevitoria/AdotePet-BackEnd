@@ -16,7 +16,12 @@ app.use(express.json());
 
 // CORS para o frontend
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', process.env.URL_CORS);
+  const allowedOrigins = process.env.URL_CORS.split(',');
+
+  // Verifica se a origem da requisição está na lista de URLs permitidas
+  if (allowedOrigins.includes(req.headers.origin)) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
