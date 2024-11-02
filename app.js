@@ -17,6 +17,8 @@ connectToDB((err) => {
   if (err) {
     console.error("Erro ao conectar ao banco de dados:", err);
     return; // Não inicializa o servidor se houver um erro
+  } else {
+    console.log("Conexão bem-sucedida")
   }
 })
 
@@ -26,7 +28,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
-    return res.sendStatus(200); // Preflight request response
+    return res.sendStatus(200);
   }
   next();
 });
