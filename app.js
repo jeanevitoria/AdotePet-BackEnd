@@ -22,19 +22,22 @@ connectToDB((err) => {
 });
 
 // CORS para o frontend
-app.use(cors({
-  origin: (origin, callback) => {
-    console.log('Origem da requisição:', origin); // Log da origem recebida
-    if (origin === 'https://adotepet-six.vercel.app') {
-      callback(null, true);
-    } else {
-      console.warn(`Acesso não permitido da origem: ${origin}`); // Log de advertência para acessos não permitidos
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
-}));
+
+app.use(
+  cors({
+    origin: 'https://adotepet-six.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200 
+  })
+);
+
+app.options('/*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'https://adotepet-six.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(200);
+});
 
 app.get('/', (req, res) => {
   res.send('API funcionando corretamente');
