@@ -41,7 +41,6 @@ export const loginService = (data) => {
 export const cadastroService = (data) => {
     const { email, senha, nome, celular } = data;
     const db = getDb();
-
     // Procura no banco de dados algum usuário com o email ou celular já registrado
     return db.collection('user').findOne({ $or: [{ email }, { celular }] })
         .then((user) => {
