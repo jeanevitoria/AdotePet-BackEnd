@@ -5,22 +5,23 @@ let dbConnection;
 dotenv.config();
 
 export const connectToDB = (cb) => {
-    console.log(process.env.MONGODB_URI)
+    console.log(process.env.MONGODB_URI);
 
-    MongoClient.connect(process.env.MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        connectTimeoutMS: 30000,
-        socketTimeoutMS: 45000
-      })
-    .then((client) => {
-        dbConnection = client.db('adotepetDB');
-        return cb();
-    })
-    .catch(err => {
-        console.log(err);
-        return cb(err);
-    });
+    MongoClient.connect(process.env.MONGODB_URI)
+        .then((client) => {
+            dbConnection = client.db('adotepetDB');
+            console.log('Conexão com o banco de dados MongoDB estabelecida com sucesso.');
+            return cb();
+        })
+        .catch((err) => {
+            console.error('Erro ao conectar ao banco de dados:', err);
+            return cb(err);
+        });
 };
 
-export const getDb = () => dbConnection;
+export const getDb = () => {
+    if (!dbConnection) {
+        throw new Error('Banco de dados não conectado');
+    }
+    return dbConnection;
+};
