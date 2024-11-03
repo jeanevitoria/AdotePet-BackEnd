@@ -13,7 +13,7 @@ export const loginService = (data) => {
     const { email, senha } = data;
 
     // Procura no banco de dados um usuário com o email fornecido
-    return db.collection('user').findOne({ email: email })
+    return db.collection('user').findOne({ email })
         .then((user) => {
             // Caso encontre, compara a senha
             if (user) {
