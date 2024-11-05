@@ -26,9 +26,9 @@ export const getAnimalService = (id) => {
 
 export const cadastrarAnimalService = (data, foto, user_id) => {
     const { nome, tipo, raca, genero, peso, localizacao, vacinado, idade, descricao } = data;
-    const { mimeType } = foto
+    const { mimetype } = foto
 
-    if (mimeType != 'image/png' && mimeType != 'image/jpeg'){
+    if (mimetype != 'image/png' && mimetype != 'image/jpeg'){
         throw new Error('A foto fornecida não possui um formato suportado.')
     }
 
