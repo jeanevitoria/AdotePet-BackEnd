@@ -26,6 +26,15 @@ export const getAnimalService = (id) => {
 
 export const cadastrarAnimalService = (data, foto, user_id) => {
     const { nome, tipo, raca, genero, peso, localizacao, vacinado, idade, descricao } = data;
+    const { mimeType } = foto
+
+    if (mimeType != 'image/png' && mimeType != 'image/jpeg'){
+        throw new Error('A foto fornecida não possui um formato suportado.')
+    }
+
+    if (!nome || !tipo || !raca || !genero || !peso || !localizacao || !vacinado || !idade || !descricao) {
+        throw new Error('Todos os campos precisam estar preenchidos.')
+    }
 
     return db.collection('animal').insertOne({
         nome,

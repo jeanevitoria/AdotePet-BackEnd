@@ -4,7 +4,8 @@ export const login = async (req, res) => {
     const data = req.body;
     loginService(data)
         .then((result) => {
-            return res.status(result.success ? 200 : 400).json(result.message)
+            console.log(result);
+            return res.status(result.success ? 200 : 400).json(result)
         })
         .catch((error) => {
             return res.status(500).json(error.message)

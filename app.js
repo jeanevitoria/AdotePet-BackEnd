@@ -34,6 +34,8 @@ app.get('/', (req, res) => {
   res.send('API funcionando corretamente');
 });
 
+// Para rodar localmente
+app.listen(3000, () => console.log('Servidor rodando na porta 3000.'))
 
 // routes
 app.use('/api/auth', authRoutes);
