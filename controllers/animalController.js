@@ -3,6 +3,7 @@ import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService 
 export const cadastrarAnimal = async (req, res) => {
     const data = req.body;
     const user_id = req.user.id;
+    console.log(req.file)
     const foto = req.file;
 
     cadastrarAnimalService(data, foto, user_id)
