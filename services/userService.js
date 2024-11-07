@@ -41,6 +41,8 @@ export const deletarPublicacaoService = (idPublicacao) => {
 
 export const getUserService = (user_id) => {
     return db.collection('user').find({ _id: ObjectId.createFromHexString(user_id) })
-        .then((result) => { return result })
+        .then((result) => { 
+            console.log(result)
+            return result })
         .catch((err) => { throw new Error(err.message) })
 }
