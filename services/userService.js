@@ -40,7 +40,7 @@ export const deletarPublicacaoService = (idPublicacao) => {
 }
 
 export const getUserService = (user_id) => {
-    return db.collection('user').find({ _id: ObjectId.createFromHexString(user_id) })
+    return db.collection('user').find({ _id: new ObjectId(user_id) })
         .then((result) => { 
             console.log(result)
             return result })
