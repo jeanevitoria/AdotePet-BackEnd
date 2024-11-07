@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { getDb } from '../configs/db.js';
 
 const db = await getDb();
@@ -27,7 +28,7 @@ export const getAnimaisPublicadosService = (user_id) => {
 };
 
 export const deletarPublicacaoService = (idPublicacao) => {
-    return db.collection('animal').deleteOne({ _id: new ObjectId(idPublicacao) })
+    return db.collection('animal').deleteOne({ _id: ObjectId.createFromHexString(idPublicacao) })
         .then((result) => {
             if (result.deletedCount > 0) {
                 return { success: true, result }
@@ -35,5 +36,11 @@ export const deletarPublicacaoService = (idPublicacao) => {
                 return { success: false, message: "Publicação não encontrada." }
             }
         })
-        .catch ((error) => { throw new Error(error.message) })
+        .catch((error) => { throw new Error(error.message) })
+}
+
+export const getUserService = (user_id) => {
+    return db.collection('user').find({ _id: ObjectId.createFromHexString(user_id) })
+        .then((result) => { return result })
+        .catch((err) => { throw new Error(err.message) })
 }

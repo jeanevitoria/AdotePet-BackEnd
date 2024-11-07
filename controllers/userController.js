@@ -30,9 +30,17 @@ export const atualizarPerfil = async (req, res) => {
 
     atualizarPerfilService(data, user_id)
         .then((result) => {
-            return res.status(result.success ? 200 : 404).json(result)
+            return res.status(result ? 200 : 404).json(result)
         })
         .catch((error) => {
             return res.status(500).json(error.message)
         })
+}
+
+export const getUser = async (req, res) => {
+    const user_id = req.user.id;
+    
+    getUserService(user_id)
+        .then((result) => { return res.status(result.success? 200 : 404).json(result) })
+        .catch((err) => { return res.status(500).json(err.message) })
 }
