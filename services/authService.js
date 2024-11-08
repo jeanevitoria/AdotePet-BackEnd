@@ -41,6 +41,11 @@ export const loginService = (data) => {
 export const cadastroService = (data) => {
     const { email, senha, nome, celular, nascimento } = data;
     const db = getDb();
+
+    if (!email || !senha || !nome || !celular || !nascimento){
+        throw new Error('Há campos vazios ou inválidos.')
+    }
+
     // Procura no banco de dados algum usuário com o email ou celular já registrado
     return db.collection('user').findOne({ $or: [{ email }, { celular }] })
         .then((user) => {
