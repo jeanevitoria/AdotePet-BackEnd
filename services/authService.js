@@ -46,6 +46,9 @@ export const cadastroService = (data) => {
         throw new Error('Há campos vazios ou inválidos.')
     }
 
+    if (new Date() - new Date(nascimento) < 18){
+        throw new Error('O nome precisa de pelo me')
+    }
     // Procura no banco de dados algum usuário com o email ou celular já registrado
     return db.collection('user').findOne({ $or: [{ email }, { celular }] })
         .then((user) => {
