@@ -49,6 +49,11 @@ export const cadastroService = (data) => {
     if (new Date() - new Date(nascimento) < 18){
         throw new Error('Os usuários precisam ter pelo menos 18 anos.')
     }
+
+    if(celular.length < 11){
+        throw new Error ('Número de celular incompleto.')
+    }
+    
     // Procura no banco de dados algum usuário com o email ou celular já registrado
     return db.collection('user').findOne({ $or: [{ email }, { celular }] })
         .then((user) => {
