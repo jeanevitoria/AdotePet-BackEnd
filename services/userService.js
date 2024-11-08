@@ -42,7 +42,6 @@ export const deletarPublicacaoService = (idPublicacao) => {
 export const getUserService = (user_id) => {
     return db.collection('user').find({ _id: new ObjectId(user_id) }).toArray()
         .then((result) => { 
-            console.log(result)
             return result })
         .catch((err) => { throw new Error(err.message) })
 }
