@@ -1,4 +1,4 @@
-import { atualizarPerfilService, getAnimaisPublicadosService, deletarPublicacaoService } from '../services/userService.js'
+import { atualizarPerfilService, getAnimaisPublicadosService, deletarPublicacaoService, getUserService } from '../services/userService.js'
 
 export const getAnimaisPublicados = async (req, res) => {
     const user_id = req.user.id;
