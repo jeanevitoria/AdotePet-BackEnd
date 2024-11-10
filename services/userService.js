@@ -4,7 +4,7 @@ import { getDb } from '../configs/db.js';
 const db = await getDb();
 
 export const atualizarPerfilService = (data, user_id) => {
-    return db.collection('user').updateOne({ _id: user_id }, { $set: data })
+    return db.collection('user').updateOne({ _id: new ObjectId(user_id) }, { $set: data })
         .then((result) => {
             if (result.modifiedCount > 0) {
                 return { success: true, result };
