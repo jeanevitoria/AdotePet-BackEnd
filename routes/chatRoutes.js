@@ -8,8 +8,4 @@ router.post('/send-message', sendMessage)
 router.get('/channels', getChats)
 router.get('/data', getMessagesChat)
 
-router.get('/', () => {
-    console.log("funcionando.")
-});
-
 export default router;
