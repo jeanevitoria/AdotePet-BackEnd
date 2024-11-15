@@ -54,7 +54,7 @@ export const sendMessageService = async (user_id, data) => {
     }
 };
 
-export const getMessagesChat = async (user_id, data) => {
+export const getMessagesChatService = async (user_id, data) => {
     const { idReceptor } = data;
 
     try {
@@ -85,7 +85,7 @@ export const getMessagesChat = async (user_id, data) => {
     }
 }
 
-export const getChats = async (user_id) => {
+export const getChatsService = async (user_id) => {
     const chats = db.collection('chats').find({
         $or: [
             { user_1: new ObjectId(user_id) }, { user_2: new ObjectId(user_id) }
