@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/send-message', sendMessage)
 router.get('/channels', getChats)
-router.get('/data', getMessagesChat)
+router.get('/channel/data', getMessagesChat)
 
 export default router;
