@@ -12,7 +12,7 @@ export const sendMessage = (req, res) => {
 export const getChats = (req, res) => {
     const user_id = req.user.id;
 
-    getChatsService(data)
+    getChatsService(user_id)
         .then((response) => { return res.status(200).json({ response }) })
         .catch((err) => { throw new Error(err.message) })
 }

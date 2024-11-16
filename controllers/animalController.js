@@ -1,4 +1,4 @@
-import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService } from '../services/animalService.js';
+import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService, publicacoesService, confirmarAdocaoService } from '../services/animalService.js';
 
 export const cadastrarAnimal = async (req, res) => {
     const data = req.body;
@@ -25,8 +25,33 @@ export const getAnimaisDisponiveis = async (req, res) => {
         })
 }
 
+export const getPublicacoes = async (req, res) => {
+    const { id } = req.user
+    
+    publicacoesService(id)
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
+}
+
+export const confirmarAdocao = async (req, res) => {
+    const { id } = req.user
+    const { idAnimal } = req.body;
+
+    confirmarAdocaoService(id, idAnimal)
+        .then((result) => {
+            return res.status(200).json(result);
+        })
+        .catch((error) => {
+            return res.status(500).json(error.message)
+        })
+}
+
 export const getAnimal = async (req, res) => {
-const { id } = req.body;
+const { id } = req.params;
 
     getAnimalService(id)
         .then((result) => {
