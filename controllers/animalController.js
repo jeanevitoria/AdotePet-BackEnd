@@ -26,9 +26,9 @@ export const getAnimaisDisponiveis = async (req, res) => {
 }
 
 export const getPublicacoes = async (req, res) => {
-    const { id } = req.user
+    const user_id = req.user.id;
     
-    publicacoesService(id)
+    publicacoesService(user_id)
         .then((result) => {
             return res.status(200).json(result);
         })
@@ -38,10 +38,10 @@ export const getPublicacoes = async (req, res) => {
 }
 
 export const confirmarAdocao = async (req, res) => {
-    const { id } = req.user
+    const user_id = req.user.id;
     const { idAnimal } = req.body;
 
-    confirmarAdocaoService(id, idAnimal)
+    confirmarAdocaoService(user_id, idAnimal)
         .then((result) => {
             return res.status(200).json(result);
         })
@@ -53,7 +53,7 @@ export const confirmarAdocao = async (req, res) => {
 export const getAnimal = async (req, res) => {
 const { id } = req.params;
 
-    getAnimalService(id)
+getAnimalService(id)
         .then((result) => {
             return res.status(200).json(result);
         })
