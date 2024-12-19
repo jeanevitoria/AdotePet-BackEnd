@@ -4,7 +4,8 @@ export const cadastrarAnimal = async (req, res) => {
     const data = req.body;
     const user_id = req.user.id;
     console.log(req.file)
-    const foto = req.file.buffer.toString('base64');
+    const foto = req.file;
+    console.log(foto)
 
     cadastrarAnimalService(data, foto, user_id)
         .then((result) => {
