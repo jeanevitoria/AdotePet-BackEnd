@@ -62,6 +62,9 @@ export const cadastrarAnimalService = (data, foto, user_id) => {
     const { nome, tipo, raca, sexo, peso, localizacao, vacinado, idade, descricao } = data;
     const { mimetype } = foto
 
+    // Parseando a string JSON de volta para um objeto
+    const localizacaoObject = JSON.parse(localizacao);
+
     if (!mimetype.startsWith('image/')){
         throw new Error('A foto fornecida não possui um formato suportado.')
     }
@@ -76,7 +79,7 @@ export const cadastrarAnimalService = (data, foto, user_id) => {
         raca,
         sexo,
         peso,
-        localizacao,
+        localizacaoObject,
         vacinado,
         idade,
         descricao,
