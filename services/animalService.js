@@ -80,7 +80,7 @@ export const cadastrarAnimalService = (data, foto, user_id) => {
         vacinado,
         idade,
         descricao,
-        foto: foto ? foto : null,
+        foto: foto ? foto.buffer : null,
         user_id,
         adotado: false
     })
