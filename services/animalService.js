@@ -86,9 +86,9 @@ export const cadastrarAnimalService = (data, foto, user_id) => {
     })
         .then((result) => {
             if (result.acknowledged) {
-                return { success: true, result };
+                return { id: result.insertedId };;
             } else {
-                return { success: false, message: "Cadastro não realizado." };
+                return { message: "Cadastro não realizado." };
             }
         })
         .catch((error) => {

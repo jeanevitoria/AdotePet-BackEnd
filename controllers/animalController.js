@@ -5,7 +5,6 @@ export const cadastrarAnimal = async (req, res) => {
     const user_id = req.user.id;
     console.log(req.file)
     const foto = req.file;
-    console.log(foto)
 
     cadastrarAnimalService(data, foto, user_id)
         .then((result) => {
