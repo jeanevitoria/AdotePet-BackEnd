@@ -59,14 +59,14 @@ export const getAnimalService = (id) => {
 };
 
 export const cadastrarAnimalService = (data, foto, user_id) => {
-    const { nome, tipo, raca, genero, peso, localizacao, vacinado, idade, descricao } = data;
+    const { nome, tipo, raca, sexo, peso, localizacao, vacinado, idade, descricao } = data;
     const { mimetype } = foto
 
     if (!mimetype.startsWith('image/')){
         throw new Error('A foto fornecida não possui um formato suportado.')
     }
 
-    if (!nome || !tipo || !raca || !genero || !peso || !localizacao || !vacinado || !idade || !descricao) {
+    if (!nome || !tipo || !raca || !sexo || !peso || !localizacao || !vacinado || !idade || !descricao) {
         throw new Error('Todos os campos precisam estar preenchidos.')
     }
 
@@ -74,13 +74,13 @@ export const cadastrarAnimalService = (data, foto, user_id) => {
         nome,
         tipo,
         raca,
-        genero,
+        sexo,
         peso,
         localizacao,
         vacinado,
         idade,
         descricao,
-        foto: foto ? foto.buffer : null,
+        foto: foto ? foto : null,
         user_id,
         adotado: false
     })
