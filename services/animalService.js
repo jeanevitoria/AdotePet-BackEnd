@@ -58,7 +58,7 @@ export const getAnimalService = (id) => {
         .catch((error) => { throw new Error(error.message); });
 };
 
-export const getAnimalFilter = (filtro, valor) => {
+export const getAnimalFilterService = (filtro, valor) => {
     return db.collection('animal').find({[filtro]: valor}).toArray()
     .catch((err) => {
         throw new Error(err.message)
