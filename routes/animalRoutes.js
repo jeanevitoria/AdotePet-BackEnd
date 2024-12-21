@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { getAnimaisDisponiveis, getAnimal, cadastrarAnimal, getPublicacoes, confirmarAdocao} from '../controllers/animalController.js';
+import { getAnimaisDisponiveis, getAnimal, cadastrarAnimal, getPublicacoes, confirmarAdocao, getAnimalFilter} from '../controllers/animalController.js';
 import { authenticateToken } from '../middlewares/authMiddleware.js';
 
 // Middleware para upload de arquivos
@@ -14,5 +14,5 @@ router.get('/publicacoes', authenticateToken, getPublicacoes);
 router.post('/confirmar-adocao', authenticateToken, confirmarAdocao)
 router.post('/cadastrar', authenticateToken, upload.single('foto'), cadastrarAnimal);
 router.get('/:id', authenticateToken, getAnimal);
-
+router.get('/filtrar', authenticateToken, getAnimalFilter)
 export default router;

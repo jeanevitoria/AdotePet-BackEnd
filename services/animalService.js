@@ -58,6 +58,13 @@ export const getAnimalService = (id) => {
         .catch((error) => { throw new Error(error.message); });
 };
 
+export const getAnimalFilter = (filtro, valor) => {
+    return db.collection('animal').find({[filtro]: valor}).toArray()
+    .catch((err) => {
+        throw new Error(err.message)
+    })
+}
+
 export const cadastrarAnimalService = (data, foto, user_id) => {
     const { nome, tipo, raca, sexo, peso, localizacao, vacinado, idade, descricao } = data;
     const { mimetype } = foto

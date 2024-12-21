@@ -1,4 +1,4 @@
-import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService, publicacoesService, confirmarAdocaoService } from '../services/animalService.js';
+import { getAnimaisDisponiveisService, getAnimalService, cadastrarAnimalService, publicacoesService, confirmarAdocaoService, getAnimalFilterService } from '../services/animalService.js';
 
 export const cadastrarAnimal = async (req, res) => {
     const data = req.body;
@@ -27,7 +27,7 @@ export const getAnimaisDisponiveis = async (req, res) => {
 
 export const getPublicacoes = async (req, res) => {
     const user_id = req.user.id;
-    
+
     publicacoesService(user_id)
         .then((result) => {
             return res.status(200).json(result);
@@ -35,6 +35,13 @@ export const getPublicacoes = async (req, res) => {
         .catch((error) => {
             return res.status(500).json(error.message)
         })
+}
+
+export const getAnimalFilter = async (req, res) => {
+    const { filtro, tipo } = req.body;
+    getAnimalFilterService(filtro, tipo)
+        .then((response) => { return res.status(200).json(response) })
+        .catch((err) => { return res.status(500).json(err.message) });
 }
 
 export const confirmarAdocao = async (req, res) => {
@@ -51,9 +58,9 @@ export const confirmarAdocao = async (req, res) => {
 }
 
 export const getAnimal = async (req, res) => {
-const { id } = req.params;
+    const { id } = req.params;
 
-getAnimalService(id)
+    getAnimalService(id)
         .then((result) => {
             return res.status(200).json(result);
         })
