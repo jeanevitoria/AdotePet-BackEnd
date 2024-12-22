@@ -60,6 +60,9 @@ export const getAnimalService = (id) => {
 
 export const getAnimalFilterService = (filtro, valor) => {
     return db.collection('animal').find({[filtro]: valor}).toArray()
+    .then((results) => {
+        return results;
+    })
     .catch((err) => {
         throw new Error(err.message)
     })
