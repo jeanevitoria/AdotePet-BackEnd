@@ -47,6 +47,7 @@ export const confirmarAdocaoService = (user_id, idAnimal) => {
 
 
 export const getAnimalService = (id) => {
+    console.log("id: " + id)
     return db.collection('animal').findOne({ _id: new ObjectId(id) })
         .then((result) => {
             if (result) {
