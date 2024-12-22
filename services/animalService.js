@@ -60,16 +60,24 @@ export const getAnimalService = (id) => {
 };
 
 export const getAnimalFilterService = (filtro, valor) => {
-    console.log("filtro: " + filtro)
-    console.log("valor: " + valor)
-    return db.collection('animal').find({[filtro]: valor}).toArray()
-    .then((results) => {
-        console.log("resultados: " + results)
-        return results;
-    })
-    .catch((err) => {
-        throw new Error(err.message)
-    })
+    // Verifica se o campo 'filtro' é válido
+    const camposPermitidos = ['nome', 'tipo', 'raca', 'peso', 'localizacao', 'vacinado', 'idade', 'descricao', 'sexo'];
+
+    if (!camposPermitidos.includes(filtro)) {
+        throw new Error(`Campo de filtro inválido: ${filtro}`);
+    }
+
+    if (typeof valor !== 'string') {
+        throw new Error(`Valor do filtro deve ser uma string`);
+    }
+
+    return db.collection('animal').find({ [filtro]: valor }).toArray()
+        .then((results) => {
+            return results;
+        })
+        .catch((err) => {
+            throw new Error(`Erro ao filtrar animais: ${err.message}`);
+        });
 }
 
 export const cadastrarAnimalService = (data, foto, user_id) => {

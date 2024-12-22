@@ -37,27 +37,13 @@ export const getPublicacoes = async (req, res) => {
         })
 }
 
-export const getAnimalFilterService = (filtro, valor) => {
-    // Verifica se o campo 'filtro' é válido
-    const camposPermitidos = ['nome', 'tipo', 'raca', 'peso', 'localizacao', 'vacinado', 'idade', 'descricao', 'sexo'];
-
-    if (!camposPermitidos.includes(filtro)) {
-        throw new Error(`Campo de filtro inválido: ${filtro}`);
-    }
-
-    if (typeof valor !== 'string') {
-        throw new Error(`Valor do filtro deve ser uma string`);
-    }
-
-    return db.collection('animal').find({ [filtro]: valor }).toArray()
-        .then((results) => {
-            return results;
-        })
-        .catch((err) => {
-            throw new Error(`Erro ao filtrar animais: ${err.message}`);
-        });
+export const getAnimalFilter = async (req, res) => {
+    const { filtro, tipo } = req.body;
+    console.log(filtro,tipo)
+    getAnimalFilterService(filtro, tipo)
+        .then((response) => { return res.status(200).json(response) })
+        .catch((err) => { return res.status(500).json(err.message) });
 }
-
 
 export const confirmarAdocao = async (req, res) => {
     const user_id = req.user.id;
