@@ -59,8 +59,11 @@ export const getAnimalService = (id) => {
 };
 
 export const getAnimalFilterService = (filtro, valor) => {
+    console.log("filtro: " + filtro)
+    console.log("valor: " + valor)
     return db.collection('animal').find({[filtro]: valor}).toArray()
     .then((results) => {
+        console.log("resultados: " + results)
         return results;
     })
     .catch((err) => {
