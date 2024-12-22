@@ -38,12 +38,7 @@ export const getPublicacoes = async (req, res) => {
 }
 
 export const getAnimalFilter = async (req, res) => {
-    const { filtro, tipo } = req.query;
-
-    if (!filtro || !valor) {
-        return res.status(400).json({ error: 'Parâmetros "filtro" e "valor" são obrigatórios.' });
-    }
-    
+    const { filtro, tipo } = req.body;
     console.log(filtro,tipo)
     getAnimalFilterService(filtro, tipo)
         .then((response) => { return res.status(200).json(response) })
