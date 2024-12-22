@@ -38,7 +38,7 @@ export const getPublicacoes = async (req, res) => {
 }
 
 export const getAnimalFilter = async (req, res) => {
-    const { filtro, tipo } = req.body;
+    const { filtro, tipo } = req.query;
     console.log(filtro,tipo)
     getAnimalFilterService(filtro, tipo)
         .then((response) => { return res.status(200).json(response) })
