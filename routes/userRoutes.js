@@ -1,4 +1,4 @@
-import { atualizarPerfil, deletarPublicacao, getAnimaisPublicados, getUser, getResponsavel } from '../controllers/userController.js';
+import { atualizarPerfil, deletarPublicacao, getAnimaisPublicados, getUser, getResponsavel, compararUsers } from '../controllers/userController.js';
 import { authenticateToken } from '../middlewares/authMiddleware.js';
 
 import express from 'express';
