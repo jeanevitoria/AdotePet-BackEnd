@@ -50,3 +50,10 @@ export const getResponsavel = async (req, res) => {
         .then((result) => { return res.status(result ? 200 : 404).json(result) })
         .catch((err) => { return res.status(500).json(err.message) })
 }
+
+export const compararUsers = async (req, res) => {
+    const { id } = req.body;
+    const id_logged = req.user.id;
+    const idsMatch = id === id_logged;
+    return res.status(200).json({ idsMatch });
+}
