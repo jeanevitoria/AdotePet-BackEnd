@@ -55,6 +55,7 @@ export const compararUsers = async (req, res) => {
     const { id } = req.body;
     const id_logged = req.user.id;
     const idsMatch = id === id_logged;
+    console.log("body: " + req.body)
     console.log(idsMatch);
     console.log(id);
     console.log(id_logged);
