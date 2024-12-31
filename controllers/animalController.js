@@ -45,7 +45,7 @@ export const getAnimalFilter = async (req, res) => {
         .catch((err) => { return res.status(500).json(err.message) });
 }
 
-export const definirAdocaoAdocao = async (req, res) => {
+export const definirAdocao = async (req, res) => {
     const user_id = req.user.id;
     const { idAnimal, status } = req.body;
 
