@@ -48,6 +48,7 @@ export const getAnimalFilter = async (req, res) => {
 export const definirAdocao = async (req, res) => {
     const user_id = req.user.id;
     const { idAnimal, status } = req.body;
+    console.log(user_id, idAnimal, status);
 
     definirAdocaoService(user_id, idAnimal, status)
         .then((result) => {
