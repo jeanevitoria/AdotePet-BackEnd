@@ -23,7 +23,7 @@ export const publicacoesService = (user_id) => {
         });
 };
 
-export const confirmarAdocaoService = (user_id, idAnimal) => {
+export const definirAdocaoService = (user_id, idAnimal, status) => {
     return db.collection('user').findOne({ _id: new ObjectId(user_id) })
         .then((user) => {
             if (!user) {
@@ -31,7 +31,7 @@ export const confirmarAdocaoService = (user_id, idAnimal) => {
             }
             return db.collection('animal').updateOne(
                 { _id: new ObjectId(idAnimal) },
-                { $set: { adotado: true } }
+                { $set: { adotado: status } }
             );
         })
         .then((updateResult) => {
