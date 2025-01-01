@@ -1,5 +1,3 @@
-import { authenticateToken } from '../middlewares/authMiddleware.js';
-
 import express from 'express';
 import { getChats, getMessagesChat, sendMessage} from '../controllers/chatController.js';
 import { authenticateToken } from '../middlewares/authMiddleware.js';
