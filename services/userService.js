@@ -53,7 +53,7 @@ export const getAnimaisPublicadosService = (user_id) => {
 };
 
 export const deletarPublicacaoService = (idAnimal) => {
-    return db.collection('animal').deleteOne({ _id: ObjectId.createFromHexString(idAnimal) })
+    return db.collection('animal').deleteOne({ _id: new ObjectId(idAnimal) })
         .then((result) => {
             if (result.deletedCount > 0) {
                 return { success: true, result }
