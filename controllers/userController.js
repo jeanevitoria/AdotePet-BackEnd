@@ -13,7 +13,7 @@ export const getAnimaisPublicados = async (req, res) => {
 }
 
 export const deletarPublicacao = async (req, res) => {
-    const idAnimal = req.body;
+    const { idAnimal } = req.body;
 
     deletarPublicacaoService(idAnimal)
         .then((result) => {
