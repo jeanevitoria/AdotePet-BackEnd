@@ -53,8 +53,6 @@ export const getAnimaisPublicadosService = (user_id) => {
 };
 
 export const deletarPublicacaoService = (idAnimal) => {
-    console.log("idAnimal: " + idAnimal)
-
     return db.collection('animal').deleteOne({ _id: new ObjectId(idAnimal) })
         .then((result) => {
             if (result.deletedCount > 0) {
