@@ -13,9 +13,9 @@ export const getAnimaisPublicados = async (req, res) => {
 }
 
 export const deletarPublicacao = async (req, res) => {
-    const idPublicacao = req.body;
+    const idAnimal = req.body;
 
-    deletarPublicacaoService(idPublicacao)
+    deletarPublicacaoService(idAnimal)
         .then((result) => {
             return res.status(200).json(result)
         })

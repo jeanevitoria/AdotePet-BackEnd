@@ -52,8 +52,8 @@ export const getAnimaisPublicadosService = (user_id) => {
         });
 };
 
-export const deletarPublicacaoService = (idPublicacao) => {
-    return db.collection('animal').deleteOne({ _id: ObjectId.createFromHexString(idPublicacao) })
+export const deletarPublicacaoService = (idAnimal) => {
+    return db.collection('animal').deleteOne({ _id: ObjectId.createFromHexString(idAnimal) })
         .then((result) => {
             if (result.deletedCount > 0) {
                 return { success: true, result }
