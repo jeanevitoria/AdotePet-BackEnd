@@ -31,7 +31,8 @@ export const io = new Server(server, {
         callback(new Error("Origem não permitida pelo CORS do Socket.IO"), false); // Bloqueia a origem
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    path: '/api/chat/socket.io'  // Definindo o caminho para o Socket.IO
   }
 })
 

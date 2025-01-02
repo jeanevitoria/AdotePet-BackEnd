@@ -3,8 +3,8 @@ import { getChats, getMessagesChat, sendMessage} from '../controllers/chatContro
 import { authenticateToken } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
-router.post('/send-message', authenticateToken, sendMessage)
-router.get('/channels', authenticateToken, getChats)
-router.get('/channel/data', authenticateToken, getMessagesChat)
+router.post('/enviar-mensagem', authenticateToken, sendMessage)
+router.get('/canais', authenticateToken, getChats)
+router.get('/canal/mensagens', authenticateToken, getMessagesChat)
 
 export default router;
