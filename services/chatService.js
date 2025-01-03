@@ -6,6 +6,8 @@ const db = getDb();
 
 export const sendMessageService = async (user_id, data) => {
     const { idReceptor, message } = data;
+    console.log("idReceptor: " + idReceptor)
+    console.log("message: " + message)
     try {
         // Procurando os usuários
         const user = await db.collection('user').findOne({ _id: new ObjectId(user_id) });
