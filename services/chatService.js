@@ -20,13 +20,13 @@ export const sendMessageService = async (user_id, data) => {
         // Criação de índice para otimizar buscas
         await db.collection('chats').createIndex({ user_1: 1, user_2: 1 });
 
+        // Encontrar chat mutuo entre os dois usuários
         const chatMutual = await db.collection('chats').find({
             $or: [
-                { "user_1.id": user._id, "user_2.id": receptor._id },
-                { "user_1.id": receptor._id, "user_2.id": user._id }
+                { user_1: user, user_2: receptor },
+                { user_1: receptor, user_2: user }
             ]
         }).toArray();
-        
 
         if (chatMutual.length == 0) {
             // Caso não exista chat, criar um novo
