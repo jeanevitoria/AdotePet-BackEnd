@@ -42,7 +42,7 @@ export const sendMessageService = async (user_id, data) => {
         }
 
         // Caso exista o chat, adicionar a nova mensagem
-        const updatedMessages = [...chatMutual[0].messages, { text: message, viewed: false }];
+        const updatedMessages = [...chatMutual[0].messages, { text: message, emissor: user, viewed: false }];
         await db.collection('chats').updateOne(
             { _id: chatMutual[0]._id },
             { $set: { messages: updatedMessages } }
