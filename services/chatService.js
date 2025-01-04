@@ -36,7 +36,7 @@ export const sendMessageService = async (user_id, data) => {
                 messages: [{ text: message, emissor: user, viewed: false }]
             });
 
-            io.emit("send_message", { chat_id: chat.insertedId, emissor: user, message: message })
+            io.emit("send_message", { chat_id: chat.insertedId, emissor: user._id, receptor: idReceptor, message: message })
 
             return { success: true };
         }
@@ -48,7 +48,7 @@ export const sendMessageService = async (user_id, data) => {
             { $set: { messages: updatedMessages } }
         );
 
-        io.emit("send_message", { chat_id: chatMutual[0]._id, from: user_id, to: idReceptor, message: message })
+        io.emit("send_message", { chat_id: chatMutual[0]._id, emissor: user_id, receptor: idReceptor, message: message })
 
         return { success: true };
     } catch (err) {
