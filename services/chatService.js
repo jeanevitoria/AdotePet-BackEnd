@@ -23,8 +23,8 @@ export const sendMessageService = async (user_id, data) => {
         // Encontrar chat mutuo entre os dois usuários
         const chatMutual = await db.collection('chats').find({
             $or: [
-                { user_1: new ObjectId(user_id), user_2: new ObjectId(idReceptor) },
-                { user_1: new ObjectId(idReceptor), user_2: new ObjectId(user_id) }
+                { user_1: user, user_2: receptor },
+                { user_1: receptor, user_2: user }
             ]
         }).toArray();
 
