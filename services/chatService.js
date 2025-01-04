@@ -100,7 +100,7 @@ export const getChatsService = async (user_id) => {
                 { user_1: user }, { user_2: user }
             ]
         }).toArray()
-
+        console.log("chats: " + chats)
         return chats
 
     } catch (error) {
