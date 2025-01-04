@@ -88,11 +88,22 @@ export const getMessagesChatService = async (user_id, data) => {
 }
 
 export const getChatsService = async (user_id) => {
-    const chats = db.collection('chats').find({
-        $or: [
-            { user_1: new ObjectId(user_id) }, { user_2: new ObjectId(user_id) }
-        ]
-    }).toArray()
+    try {
+        const user = await db.collection('user').findOne({ _id: new ObjectId(user_id) })
 
-    return chats
+        if (!user) {
+            throw new Error('usuário não encontrado.')
+        }
+
+        const chats = db.collection('chats').find({
+            $or: [
+                { user_1: user }, { user_2: user }
+            ]
+        }).toArray()
+
+        return chats
+
+    } catch (error) {
+        throw new Error(err)
+    }
 }
