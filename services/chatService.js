@@ -33,10 +33,10 @@ export const sendMessageService = async (user_id, data) => {
             const chat = await db.collection('chats').insertOne({
                 user_1: user,
                 user_2: receptor,
-                messages: [{ text: message, viewed: false }]
+                messages: [{ text: message, emissor: user, viewed: false }]
             });
 
-            io.emit("send_message", { chat_id: chat.insertedId, message: message })
+            io.emit("send_message", { chat_id: chat.insertedId, emissor: user, message: message })
 
             return { success: true };
         }
