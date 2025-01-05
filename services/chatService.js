@@ -1,10 +1,9 @@
 import { ObjectId } from 'mongodb';
 import { getDb } from '../configs/db.js';
-import { io } from '../app.js';
 
 const db = getDb();
 
-export const sendMessageService = async (user_id, data) => {
+export const saveMessageService = async (user_id, data) => {
     const { idReceptor, message } = data;
     console.log("idReceptor: " + idReceptor)
     console.log("message: " + message)
@@ -36,8 +35,6 @@ export const sendMessageService = async (user_id, data) => {
                 messages: [{ text: message, emissor: user, viewed: false }]
             });
 
-            io.emit("send_message", { chat_id: chat.insertedId, emissor: user._id, receptor: idReceptor, message: message })
-
             return { success: true };
         }
 
@@ -48,44 +45,11 @@ export const sendMessageService = async (user_id, data) => {
             { $set: { messages: updatedMessages } }
         );
 
-        io.emit("send_message", { chat_id: chatMutual[0]._id, emissor: user_id, receptor: idReceptor, message: message })
-
         return { success: true };
     } catch (err) {
         throw new Error(err);
     }
 };
-
-export const getMessagesChatService = async (user_id, data) => {
-    const { idReceptor } = data;
-
-    try {
-        const user = await db.collection('user').findOne({ _id: new ObjectId(user_id) })
-        const receptor = await db.collection('user').findOne({ _id: new ObjectId(idReceptor) })
-
-        if (!user || !receptor) {
-            throw new Error('usuário ou receptor não encontrado.')
-        }
-
-        // Encontrar chat mutuo entre os dois usuários
-        const chatMutual = await db.collection('chats').find({
-            $or: [
-                { user_1: new ObjectId(user_id), user_2: new ObjectId(idReceptor) },
-                { user_1: new ObjectId(idReceptor), user_2: new ObjectId(user_id) }
-            ]
-        }).toArray();
-
-        if (chatMutual.length == 0) {
-            return { messages: [] }
-        }
-
-        const chat = chatMutual[0]
-        return { success: true, chat }
-
-    } catch (err) {
-        throw new Error(err)
-    }
-}
 
 export const getChatsService = async (user_id) => {
     return db.collection('user').findOne({ _id: new ObjectId(user_id) })

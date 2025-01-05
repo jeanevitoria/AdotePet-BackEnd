@@ -37,11 +37,27 @@ export const io = new Server(server, {
 })
 
 io.on("connection", (socket) => {
-  socket.on("send_message", (data) => {
-    const { chat_id } = data;
-    socket.to(chat_id).emit("receive_message", data);
-  })
-})
+  // Quando o usuário se conecta, ele se registra em uma sala com o próprio _id
+  socket.on("register_user", (userId) => {
+    socket.join(userId); // O socket entra em uma room com o nome do _id
+    console.log(`Usuário ${userId} conectado à sala ${userId}`);
+  });
+
+  // Enviar mensagem para um usuário específico
+  socket.on("send_message", ({ idEmissor, idReceptor, message }) => {
+    io.to(idReceptor).emit("receive_message", {
+      from: idEmissor,
+      to: idReceptor,
+      message,
+    }); // Envia a mensagem para a sala do _id especificado
+  });
+
+  // Lidar com desconexões
+  socket.on("disconnect", () => {
+    console.log(`Socket ${socket.id} desconectado.`);
+  });
+});
+
 
 // Middleware
 app.use(express.json());
