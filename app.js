@@ -47,17 +47,16 @@ wss.on('connection', (ws, req) => {
   // Registro de mensagens recebidas
   ws.on('message', (data) => {
     try {
-      const message = JSON.parse(data);
+      const dataMessage = JSON.parse(data);
 
-      // Exemplo de estrutura de mensagem: { action: 'register_user', userId: '12345' }
-      switch (message.action) {
+      switch (dataMessage.action) {
         case 'register_user':
-          ws.userId = message.userId; // Salva o ID do usuário na conexão
-          console.log(`Usuário ${message.userId} registrado.`);
+          ws.userId = dataMessage.idEmissor;
+          console.log(`Usuário ${dataMessage.idEmissor} registrado.`);
           break;
 
         case 'send_message':
-          const { idEmissor, idReceptor, message: text } = message;
+          const { idEmissor, idReceptor, message } = dataMessage;
 
           // Envia a mensagem para todos os clientes conectados
           wss.clients.forEach((client) => {
@@ -65,15 +64,15 @@ wss.on('connection', (ws, req) => {
               client.send(JSON.stringify({
                 from: idEmissor,
                 to: idReceptor,
-                message: text,
+                message,
               }));
             }
           });
-          console.log(`Mensagem enviada de ${idEmissor} para ${idReceptor}: ${text}`);
+          console.log(`Mensagem enviada de ${idEmissor} para ${idReceptor}: ${message}`);
           break;
 
         default:
-          console.log('Ação desconhecida:', message.action);
+          console.log('Ação desconhecida:', dataMessage.action);
       }
     } catch (error) {
       console.error('Erro ao processar mensagem:', error);
