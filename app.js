@@ -47,8 +47,9 @@ wss.on('connection', (ws, req) => {
   // Registro de mensagens recebidas
   ws.on('message', (data) => {
     try {
+      console.log(data)
       const dataMessage = JSON.parse(data);
-
+      console.log(dataMessage)
       switch (dataMessage.action) {
         case 'register_user':
           ws.userId = dataMessage.idEmissor;
@@ -58,7 +59,7 @@ wss.on('connection', (ws, req) => {
         case 'send_message':
           const { idEmissor, idReceptor, message } = dataMessage;
 
-          // Envia a mensagem para todos os clientes conectados
+          // Envia a mensagem para o cliente específico
           wss.clients.forEach((client) => {
             if (client.userId === idReceptor && client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify({
