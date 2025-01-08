@@ -63,9 +63,8 @@ wss.on('connection', (ws, req) => {
           wss.clients.forEach((client) => {
             if (client.userId === idReceptor && client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify({
-                from: idEmissor,
-                to: idReceptor,
-                message,
+                text: message,
+                emissor: idEmissor,
               }));
             }
           });
