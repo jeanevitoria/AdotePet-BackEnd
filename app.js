@@ -5,7 +5,7 @@ import chatRoutes from './routes/chatRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
 import http from 'http';
 import cors from 'cors';
-import { Server } from 'socket.io';
+import { WebSocketServer } from 'ws';
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -18,46 +18,6 @@ const server = http.createServer(app)
 
 // Origens permitidas
 const allowedOrigins = process.env.URL_CORS.split(',');
-
-// Criação do server do Socket.io
-export const io = new Server(server, {
-  cors: {
-
-    origin: (origin, callback) => {
-      // Verifica se a origem está na lista de URLs permitidas
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true); // Permite a origem
-      } else {
-        callback(new Error("Origem não permitida pelo CORS do Socket.IO"), false); // Bloqueia a origem
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    path: '/api/chat/socket.io'  // Definindo o caminho para o Socket.IO
-  }
-})
-
-io.on("connection", (socket) => {
-  // Quando o usuário se conecta, ele se registra em uma sala com o próprio _id
-  socket.on("register_user", (userId) => {
-    socket.join(userId); // O socket entra em uma room com o nome do _id
-    console.log(`Usuário ${userId} conectado à sala ${userId}`);
-  });
-
-  // Enviar mensagem para um usuário específico
-  socket.on("send_message", ({ idEmissor, idReceptor, message }) => {
-    io.to(idReceptor).emit("receive_message", {
-      from: idEmissor,
-      to: idReceptor,
-      message,
-    }); // Envia a mensagem para a sala do _id especificado
-  });
-
-  // Lidar com desconexões
-  socket.on("disconnect", () => {
-    console.log(`Socket ${socket.id} desconectado.`);
-  });
-});
-
 
 // Middleware
 app.use(express.json());
@@ -75,6 +35,55 @@ app.use((req, res, next) => {
     return res.sendStatus(200);
   }
   next();
+});
+
+// Criação do WebSocket Server
+const wss = new WebSocketServer({ server, path: '/api/chat' });
+
+// Lista de conexões e manipulação de eventos
+wss.on('connection', (ws, req) => {
+  console.log('Novo cliente conectado');
+
+  // Registro de mensagens recebidas
+  ws.on('message', (data) => {
+    try {
+      const message = JSON.parse(data);
+
+      // Exemplo de estrutura de mensagem: { action: 'register_user', userId: '12345' }
+      switch (message.action) {
+        case 'register_user':
+          ws.userId = message.userId; // Salva o ID do usuário na conexão
+          console.log(`Usuário ${message.userId} registrado.`);
+          break;
+
+        case 'send_message':
+          const { idEmissor, idReceptor, message: text } = message;
+
+          // Envia a mensagem para todos os clientes conectados
+          wss.clients.forEach((client) => {
+            if (client.userId === idReceptor && client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify({
+                from: idEmissor,
+                to: idReceptor,
+                message: text,
+              }));
+            }
+          });
+          console.log(`Mensagem enviada de ${idEmissor} para ${idReceptor}: ${text}`);
+          break;
+
+        default:
+          console.log('Ação desconhecida:', message.action);
+      }
+    } catch (error) {
+      console.error('Erro ao processar mensagem:', error);
+    }
+  });
+
+  // Evento de desconexão
+  ws.on('close', () => {
+    console.log('Cliente desconectado');
+  });
 });
 
 app.get('/', (req, res) => {
