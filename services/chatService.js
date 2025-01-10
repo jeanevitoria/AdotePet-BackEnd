@@ -58,17 +58,17 @@ export const getChatsService = async (user_id) => {
         .then((user) => {
             return db.collection('chats').find({
                 $or: [
-                    { user_1: user },
-                    { user_2: user }
-                ]
+                        { "user_1._id": new ObjectId(user._id) },
+                        { "user_2._id": new ObjectId(user._id) }
+                    ]
             }).toArray()
         })
         .then((chats) => {
-            console.log(chats)
-            return chats;
-        })
-        .catch(error => {
-            console.error("Erro ao buscar os chats:", error);
-            throw error;
-        });
+                    console.log(chats)
+                    return chats;
+                })
+    .catch(error => {
+        console.error("Erro ao buscar os chats:", error);
+        throw error;
+    });
 }
