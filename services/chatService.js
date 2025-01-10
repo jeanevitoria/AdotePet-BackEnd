@@ -32,8 +32,8 @@ export const saveMessageService = async (user_id, data) => {
         if (chatMutual.length == 0) {
             // Caso não exista chat, criar um novo
             const chat = await db.collection('chats').insertOne({
-                user_1: user,
-                user_2: receptor,
+                user_1: user._id,
+                user_2: receptor._id,
                 messages: [{ text: message, emissor: user._id }]
             });
 
