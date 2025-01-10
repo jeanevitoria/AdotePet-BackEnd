@@ -14,7 +14,7 @@ export const getAnimaisDisponiveisService = () => {
 };
 
 export const publicacoesService = (user_id) => {
-    return db.collection('animal').find({ user_id: new ObjectId(user_id) }).toArray()
+    return db.collection('animal').find({ user_id: user_id }).toArray()
         .then((results) => {
             return results;
         })
