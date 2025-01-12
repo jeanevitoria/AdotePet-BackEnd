@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { getDb } from '../configs/db.js';
+import { getUserService } from './userService.js';
 
 const db = getDb();
 
@@ -22,8 +23,8 @@ export const saveMessageService = async (user_id, data) => {
         // Encontrar chat mutuo entre os dois usuários
         const chatMutual = await db.collection('chats').find({
             $or: [
-                { "user_1._id": new ObjectId(user._id), "user_2._id": new ObjectId(receptor._id) },
-                { "user_1._id": new ObjectId(receptor._id), "user_2._id": new ObjectId(user._id) }
+                { "user_1._id": user._id, "user_2._id": receptor._id },
+                { "user_1._id": receptor._id, "user_2._id": user._id }
             ]
         }).toArray();
 
@@ -54,21 +55,32 @@ export const saveMessageService = async (user_id, data) => {
 };
 
 export const getChatsService = async (user_id) => {
-    return db.collection('user').findOne({ _id: new ObjectId(user_id) })
-        .then((user) => {
-            return db.collection('chats').find({
-                $or: [
-                        { "user_1._id": new ObjectId(user._id) },
-                        { "user_2._id": new ObjectId(user._id) }
-                    ]
-            }).toArray()
-        })
-        .then((chats) => {
-                    console.log(chats)
-                    return chats;
-                })
-    .catch(error => {
+    try {
+        const user = await db.collection('user').findOne({ _id: new ObjectId(user_id) });
+        if (!user) {
+            throw new Error('Usuário não encontrado');
+        }
+
+        const chats = await db.collection('chats').find({
+            $or: [
+                { "user_1": new ObjectId(user._id) },
+                { "user_2": new ObjectId(user._id) }
+            ]
+        }).toArray();
+
+        const chatWithUserInfo = await Promise.all(
+            chats.map(async (chat) => {
+                const idEmissor = 
+                    chat.user_1.equals(user._id) ? chat.user_2 : chat.user_1;
+                
+                const emissor = await getUserService(idEmissor.toString());
+                return { ...chat, emissor };
+            })
+        );
+
+        return chatWithUserInfo;
+    } catch (error) {
         console.error("Erro ao buscar os chats:", error);
         throw error;
-    });
-}
+    }
+};
