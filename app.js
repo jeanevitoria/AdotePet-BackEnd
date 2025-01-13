@@ -57,7 +57,7 @@ wss.on('connection', (ws, req) => {
           break;
 
         case 'send_message':
-          const { idEmissor, idReceptor, message } = dataMessage;
+          const { idEmissor, idReceptor, emissor, message } = dataMessage;
 
           // Envia a mensagem para o cliente específico
           wss.clients.forEach((client) => {
@@ -65,6 +65,7 @@ wss.on('connection', (ws, req) => {
               client.send(JSON.stringify({
                 text: message,
                 emissor: idEmissor,
+                emissorData: emissor
               }));
             }
           });
