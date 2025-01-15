@@ -81,14 +81,14 @@ export const cadastroService = (data) => {
         });
 };
 
-export const recuperarSenhaService = async (email) => {
-    await db.collection('user').findOne({ email })
+export const recuperarSenhaService = (email) => {
+     db.collection('user').findOne({ email })
         .then((user) => {
             console.log(user)
             if (!user) {
                 throw new Error("E-mail informado não corresponde a nenhum usuário cadastrado.")
             }
-            sendMail(email)
+         sendMail(email)
         })
         .catch((err) => { throw new Error(err.message) })
 }
