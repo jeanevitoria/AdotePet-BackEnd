@@ -1,8 +1,9 @@
 import { getDb } from '../configs/db.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import { ObjectId } from 'mongodb';
 
 dotenv.config();
 
@@ -128,3 +129,33 @@ const sendMail = async (email) => {
         .then((res) => { return res })
         .catch((err) => { throw new Error("Erro ao enviar e-mail para redefinição de senha: " + err.message) })
 }
+
+export const redefinirSenhaService = (token, senha) => {
+    const db = getDb();
+
+    if (!token) {
+        throw new Error("Token de redefinição de senha não fornecido.")
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET)
+    const { email } = decoded;
+
+    return db.collection('user').findOne({ email })
+        .then((user) => {
+            console.log(user)
+            if (!user) {
+                throw new Error("E-mail informado não corresponde a nenhum usuário cadastrado.")
+            }
+
+            return user._id
+        })
+        .then(async (user_id) => {
+            const hashedSenha = await bcrypt.hash(senha, SALT_ROUNDS)
+            return db.collection('user').updateOne(
+                { _id: new ObjectId(user_id) },  
+                { $set: { senha: hashedSenha } }
+            )
+        })
+        .catch((err) => { throw new Error(err.message) })
+}
+
