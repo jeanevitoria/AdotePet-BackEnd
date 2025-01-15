@@ -1,4 +1,4 @@
-import { loginService, cadastroService } from '../services/authService.js'
+import { loginService, cadastroService, recuperarSenhaService } from '../services/authService.js'
 
 export const login = async (req, res) => {
     const data = req.body;
@@ -22,4 +22,12 @@ export const cadastro = async (req, res) => {
         .catch((error) => {
             return res.status(500).json(error.message)
         })
+}
+
+export const recuperarSenha = async (req, res) => {
+    const email = req.body;
+
+    recuperarSenhaService(email)
+        .then((result) => { return res.status(200).json(result) })
+        .catch((err) => { return res.status(500).json(err.message) })
 }
