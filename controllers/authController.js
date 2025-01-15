@@ -26,7 +26,8 @@ export const cadastro = async (req, res) => {
 
 export const recuperarSenha = async (req, res) => {
     const { email } = req.body;
-
+    console.log(email)
+    
     recuperarSenhaService(email)
         .then((result) => { return res.status(200).json(result) })
         .catch((err) => { return res.status(500).json(err.message) })
