@@ -84,13 +84,13 @@ export const cadastroService = (data) => {
 export const recuperarSenhaService = (email) => {
     const db = getDb();
 
-     db.collection('user').findOne({ email })
+    return db.collection('user').findOne({ email })
         .then((user) => {
             console.log(user)
             if (!user) {
                 throw new Error("E-mail informado não corresponde a nenhum usuário cadastrado.")
             }
-         sendMail(email)
+            return sendMail(email)
         })
         .catch((err) => { throw new Error(err.message) })
 }
@@ -118,7 +118,7 @@ const sendMail = async (email) => {
     <p>Olá, seu link para redefinir a sua senha: 'https://adotepet-six.vercel.app/redefinir-senha/${token}'. Esse link expirará em 1 hora.</p>
     `;
 
-    transporter.sendMail({
+    return transporter.sendMail({
         from: 'promonitorufrpe@gmail.com',
         to: email,
         subject: 'Recuperação de senha ADOTEPET',
