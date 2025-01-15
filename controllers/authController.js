@@ -25,7 +25,7 @@ export const cadastro = async (req, res) => {
 }
 
 export const recuperarSenha = async (req, res) => {
-    const email = req.body;
+    const { email } = req.body;
 
     recuperarSenhaService(email)
         .then((result) => { return res.status(200).json(result) })
