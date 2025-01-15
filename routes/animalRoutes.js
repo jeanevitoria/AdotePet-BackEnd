@@ -14,5 +14,5 @@ router.get('/publicacoes', authenticateToken, getPublicacoes);
 router.post('/definir-adocao', authenticateToken, definirAdocao)
 router.post('/cadastrar', authenticateToken, upload.single('foto'), cadastrarAnimal);
 router.get('/filtrar', authenticateToken, getAnimalFilter);
-router.get('/:id', authenticateToken, getAnimal);
+router.get('/:id', getAnimal);
 export default router;
