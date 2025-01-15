@@ -82,6 +82,8 @@ export const cadastroService = (data) => {
 };
 
 export const recuperarSenhaService = (email) => {
+    const db = getDb();
+
      db.collection('user').findOne({ email })
         .then((user) => {
             console.log(user)
