@@ -115,14 +115,14 @@ const sendMail = async (email) => {
 
     const emailBody = `
     <p>Recuperação de Senha</p>
-    <p>Olá, seu link para redefinir a sua senha: 'https://adotepet-six.vercel.app/redefinir-senha/${token}'. Esse link expirará em 1 hora.</p>
+    <p>Olá, seu link para redefinir a sua senha: 'https://adotepet-six.vercel.app/auth/redefinir-senha/${token}'. Esse link expirará em 1 hora.</p>
     `;
 
     return transporter.sendMail({
         from: 'promonitorufrpe@gmail.com',
         to: email,
         subject: 'Recuperação de senha ADOTEPET',
-        text: `Olá, seu link para redefinir a sua senha: 'https://adotepet-six.vercel.app/redefinir-senha/${token}'. Esse link expirará em 1 hora.`,
+        text: `Olá, seu link para redefinir a sua senha: 'https://adotepet-six.vercel.app/auth/redefinir-senha/${token}'. Esse link expirará em 1 hora.`,
         html: emailBody
     })
         .then((res) => { return res })
