@@ -5,7 +5,7 @@ export const login = async (req, res) => {
     loginService(data)
         .then((result) => {
             console.log(result);
-            return res.status(result.success ? 200 : 400).json(result)
+            return res.status(result.success ? 200 : 400).json(result.message)
         })
         .catch((error) => {
             return res.status(500).json(error.message)
