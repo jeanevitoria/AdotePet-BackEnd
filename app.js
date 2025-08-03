@@ -25,8 +25,6 @@ app.use(express.json());
 // CORS para o frontend
 app.use((req, res, next) => {
 
-const isRunningOnVercel = !!process.env.VERCEL;
-
   // Verifica se a origem da requisição está na lista de URLs permitidas
   if (allowedOrigins.includes(req.headers.origin)) {
     res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -38,6 +36,8 @@ const isRunningOnVercel = !!process.env.VERCEL;
   }
   next();
 });
+
+const isRunningOnVercel = !!process.env.VERCEL;
 
 if (!isRunningOnVercel) {
   const wss = new WebSocketServer({ server, path: '/api/chat' });
