@@ -25,6 +25,8 @@ app.use(express.json());
 // CORS para o frontend
 app.use((req, res, next) => {
 
+const isRunningOnVercel = !!process.env.VERCEL;
+
   // Verifica se a origem da requisição está na lista de URLs permitidas
   if (allowedOrigins.includes(req.headers.origin)) {
     res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -37,54 +39,51 @@ app.use((req, res, next) => {
   next();
 });
 
-// Criação do WebSocket Server
-const wss = new WebSocketServer({ server, path: '/api/chat' });
+if (!isRunningOnVercel) {
+  const wss = new WebSocketServer({ server, path: '/api/chat' });
 
-// Lista de conexões e manipulação de eventos
-wss.on('connection', (ws, req) => {
-  console.log('Novo cliente conectado');
+  wss.on('connection', (ws, req) => {
+    console.log('Novo cliente conectado');
 
-  // Registro de mensagens recebidas
-  ws.on('message', (data) => {
-    try {
-      console.log(data)
-      const dataMessage = JSON.parse(data);
-      console.log(dataMessage)
-      switch (dataMessage.action) {
-        case 'register_user':
-          ws.userId = dataMessage.idEmissor;
-          console.log(`Usuário ${dataMessage.idEmissor} registrado.`);
-          break;
+    ws.on('message', (data) => {
+      try {
+        console.log(data)
+        const dataMessage = JSON.parse(data);
+        console.log(dataMessage)
+        switch (dataMessage.action) {
+          case 'register_user':
+            ws.userId = dataMessage.idEmissor;
+            console.log(`Usuário ${dataMessage.idEmissor} registrado.`);
+            break;
 
-        case 'send_message':
-          const { idEmissor, idReceptor, emissor, message } = dataMessage;
+          case 'send_message':
+            const { idEmissor, idReceptor, emissor, message } = dataMessage;
 
-          // Envia a mensagem para o cliente específico
-          wss.clients.forEach((client) => {
-            if (client.userId === idReceptor && client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify({
-                text: message,
-                emissor: idEmissor,
-                emissorData: emissor
-              }));
-            }
-          });
-          console.log(`Mensagem enviada de ${idEmissor} para ${idReceptor}: ${message}`);
-          break;
+            wss.clients.forEach((client) => {
+              if (client.userId === idReceptor && client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                  text: message,
+                  emissor: idEmissor,
+                  emissorData: emissor
+                }));
+              }
+            });
+            console.log(`Mensagem enviada de ${idEmissor} para ${idReceptor}: ${message}`);
+            break;
 
-        default:
-          console.log('Ação desconhecida:', dataMessage.action);
+          default:
+            console.log('Ação desconhecida:', dataMessage.action);
+        }
+      } catch (error) {
+        console.error('Erro ao processar mensagem:', error);
       }
-    } catch (error) {
-      console.error('Erro ao processar mensagem:', error);
-    }
-  });
+    });
 
-  // Evento de desconexão
-  ws.on('close', () => {
-    console.log('Cliente desconectado');
+    ws.on('close', () => {
+      console.log('Cliente desconectado');
+    });
   });
-});
+}
 
 app.get('/', (req, res) => {
   res.send('API funcionando corretamente');
